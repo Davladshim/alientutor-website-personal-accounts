@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 100px auto; padding: 40px;">
+    <div class="card" style="text-align: center;">
+        <h2 style="color: #5ED9D7; margin-bottom: 30px;">📝 Регистрация</h2>
+        
+        <p style="padding: 20px; background: rgba(255, 234, 167, 0.2); border-radius: 10px; margin-bottom: 20px;">
+            ⚠️ Регистрация временно недоступна.<br>
+            Используйте тестовые аккаунты для входа.
+        </p>
+        
+        <a href="{{ url_for('auth.login') }}" class="btn btn-secondary">← Вернуться к входу</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Образовательный портал{% endblock %}</title>
+    
+    <!-- Основные стили -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="theme-dark" id="body">
+    <!-- ПЕРЕКЛЮЧАТЕЛЬ ТЕМ -->
+    <div class="theme-switcher" onclick="toggleTheme()">
+        <span class="theme-icon moon active">🌑</span>
+        <div class="switch-track">
+            <div class="switch-thumb"></div>
+        </div>
+        <span class="theme-icon sun">☀️</span>
+    </div>
+
+    <!-- НАВИГАЦИЯ -->
+    {% if current_user %}
+    <nav class="navbar">
+        <div class="nav-item {% if request.endpoint == 'index' %}active{% endif %}" onclick="location.href='{{ url_for('index') }}'">
+            Главная
+        </div>
+        
+        {% if current_user.role == 'student' %}
+            <div class="nav-item {% if 'student' in request.endpoint %}active{% endif %}" onclick="location.href='{{ url_for('student.cabinet') }}'">
+                ЛКУ
+            </div>
+        {% endif %}
+        
+        {% if current_user.role == 'parent' %}
+            <div class="nav-item {% if 'parent' in request.endpoint %}active{% endif %}" onclick="location.href='{{ url_for('parent.cabinet') }}'">
+                ЛКР
+            </div>
+        {% endif %}
+        
+        <div class="nav-item {% if request.endpoint == 'rating' %}active{% endif %}" onclick="location.href='{{ url_for('main.rating') }}'">
+            Рейтинг
+        </div>
+        
+        <div class="nav-item {% if request.endpoint == 'about' %}active{% endif %}" onclick="location.href='{{ url_for('main.about') }}'">
+            О преподе
+        </div>
+        
+        {% if current_user.role == 'admin' %}
+            <div class="nav-item {% if 'admin' in request.endpoint %}active{% endif %}" onclick="location.href='{{ url_for('admin.dashboard') }}'">
+                Админ
+            </div>
+        {% endif %}
+        
+        <div class="nav-item" onclick="location.href='{{ url_for('logout') }}'">
+            Выход
+        </div>
+    </nav>
+    {% endif %}
+
+    <!-- ФОНОВЫЕ ЭЛЕМЕНТЫ -->
+    <div class="background-container" id="backgroundContainer">
+        <!-- Звезды и облака будут добавлены через JavaScript -->
+    </div>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ -->
+    <main class="main-content">
+        <!-- Flash сообщения -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="notification notification-{{ category }}" id="flash-{{ loop.index }}">
+                            {{ message }}
+                            <span class="close-notification" onclick="hideNotification('flash-{{ loop.index }}')">&times;</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Основной контент страницы -->
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- МОДАЛЬНЫЕ ОКНА -->
+    {% include 'components/modals.html' %}
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/mine.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/themes.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/modals.js') }}"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

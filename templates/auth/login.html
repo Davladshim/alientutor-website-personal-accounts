@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Вход в систему{% endblock %}
+
+{% block content %}
+<div style="max-width: 400px; margin: 100px auto; padding: 40px;">
+    <div class="card" style="text-align: center;">
+        <h2 style="color: #5ED9D7; margin-bottom: 30px;">🔐 Вход в систему</h2>
+        
+        <form method="POST">
+            <div class="form-group">
+                <label>Email:</label>
+                <input type="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Пароль:</label>
+                <input type="password" name="password" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Войти</button>
+        </form>
+        
+        <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+            <p style="font-size: 0.9rem; opacity: 0.8;">Тестовые аккаунты:</p>
+            <p style="font-size: 0.8rem;">👨‍💼 Админ: admin@example.com / admin123</p>
+            <p style="font-size: 0.8rem;">🎓 Ученик: student@example.com / student123</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
